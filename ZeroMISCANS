@@ -1,0 +1,102 @@
+import socket
+from datetime import datetime
+import subprocess
+import sys
+from colorama import Fore
+import platform
+import time
+import os
+
+
+
+banner = """
+ ,--^----------,--------,-----,-------^--,
+ | |||||||||   `--------' port|scanner   O
+ `+---------------------------^----------|
+   `\_,-------, _________________________|
+     / XXXXXX /`|c8p1lu/
+    / XXXXXX /  `\   /
+   / XXXXXX /\______(
+  / XXXXXX /
+ / XXXXXX /
+(________(
+ `------'
+"""
+
+ip_input = input("""
+
+ ,--^----------,--------,-----,-------^--,
+ | |||||||||   `--------' port|scanner   O
+ `+---------------------------^----------|
+   `\_,-------, _________________________|
+     / XXXXXX /`|c8p1lu/
+    / XXXXXX /  `\   /
+   / XXXXXX /\______(
+  / XXXXXX /
+ / XXXXXX /
+(________(
+ `------'
+
+ Type in the IP that you wanna scan: """)
+
+scan_target_indicator = " The SCAN is being performed on " + ip_input
+scan_time = " Scan started at " + str(datetime.now())
+
+if platform.system() == "Linux":
+    print(" Zero detected you are running: " + platform.system())
+    time.sleep(2)
+    os.system("clear")
+    print("-" * 45)
+    print(" The SCAN is being performed on " + ip_input)
+    print(" Scan started at " + str(datetime.now()))
+    print("-" * 45)
+    ip_ip = socket.gethostbyname(ip_input)
+    try:
+        for port in range(1,1025):
+            sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            socket.setdefaulttimeout(1)
+            result = sock.connect_ex((ip_ip, port))
+            if result == 0:
+
+                print(" Port {}: 	 Open".format(port))
+                print("-" * 45)
+            sock.close()
+
+    except KeyboardInterrupt:
+        print("\n Exitting Script!")
+        sys.exit()
+    except socket.gaierror:
+        print("\n Hostname Could Not Be Resolved!")
+        sys.exit()
+    except socket.error:
+        print("\ Server not responding!")
+        sys.exit()
+elif platform.system() == "Windows":
+    print(" Zero detected you are running: " + platform.system())
+    time.sleep(2)
+    os.system("cls")
+    print("-" * 45)
+    print(scan_target_indicator.rjust(20))
+    print(scan_time.rjust(20))
+    print("-" * 45)
+    ip_ip = socket.gethostbyname(ip_input)
+    try:
+        for port in range(1,1025):
+            sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            socket.setdefaulttimeout(1)
+            result = sock.connect_ex((ip_ip, port))
+            if result == 0:
+                print(" Port {}: 	 Open".format(port))
+                print("-" * 45)
+            sock.close()
+    except KeyboardInterrupt:
+        print("\n Exitting Script!")
+        sys.exit()
+    except socket.gaierror:
+        print("\n Hostname Could Not Be Resolved!")
+        sys.exit()
+    except socket.error:
+        print("\ Server not responding!")
+        sys.exit()
+else:
+    print(" The OS is unknowned.")
